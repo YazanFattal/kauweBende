@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Kauwe Bende · Icons Edition</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1a472a 0%, #0e2a1e 100%);
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      padding: 1rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .game-header {
+      text-align: center;
+      color: white;
+      margin-bottom: 1.5rem;
+    }
+
+    .game-header h1 {
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .timer {
+      background: rgba(0,0,0,0.6);
+      display: inline-block;
+      padding: 5px 15px;
+      border-radius: 40px;
+      margin-top: 8px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .game-table {
+      background: rgba(46, 87, 62, 0.4);
+      border-radius: 2rem;
+      padding: 1.5rem;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,215,0,0.3);
+    }
+
+    .players-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .player-card {
+      background: white;
+      border-radius: 1rem;
+      padding: 0.8rem;
+      min-width: 120px;
+      text-align: center;
+      border: 2px solid #e2b13b;
+    }
+
+    .player-card.active-turn {
+      border: 3px solid #f7d44a;
+      background: linear-gradient(135deg, #fff, #fff9e8);
+      transform: scale(1.02);
+      box-shadow: 0 0 0 3px rgba(247,212,74,0.5);
+    }
+
+    .player-name {
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .card-count {
+      font-size: 0.8rem;
+      color: #2c5a2e;
+      background: #f0e2c5;
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      margin-top: 5px;
+    }
+
+    .discard-area {
+      text-align: center;
+      margin: 1rem 0;
+    }
+
+    .discard-pile {
+      display: inline-block;
+      background: white;
+      border-radius: 1rem;
+      padding: 1rem;
+      min-width: 220px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .discard-label {
+      font-size: 0.7rem;
+      color: #666;
+      margin-bottom: 5px;
+    }
+
+    .current-card {
+      font-size: 1.1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .match-rules {
+      font-size: 0.75rem;
+      color: #555;
+      margin-top: 5px;
+      font-weight: 500;
+    }
+
+    .player-hand {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .hand-title {
+      font-weight: 800;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .cards-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      max-height: 500px;
+      overflow-y: auto;
+      padding: 0.5rem;
+    }
+
+    /* LARGER CARDS for better readability */
+    .card {
+      width: 200px;
+      min-height: 180px;
+      background: white;
+      border-radius: 1rem;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      border: 1px solid #ddd;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 6px;
+    }
+
+    .card-name {
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .card-question {
+      font-size: 0.85rem;
+      line-height: 1.4;
+      margin-top: 8px;
+      color: #1a2e2a;
+      font-weight: 500;
+      word-wrap: break-word;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-effect {
+      font-size: 0.75rem;
+      font-weight: bold;
+      margin-top: 8px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .card-yellow { background: #F7DC6F; border-bottom: 5px solid #D4AC0D; }
+    .card-blue { background: #5DADE2; border-bottom: 5px solid #2E86C1; }
+    .card-green { background: #A3E4A3; border-bottom: 5px solid #2E7D32; }
+    .card-red { background: #E74C3C; border-bottom: 5px solid #B03A2E; color: white; }
+    .card-red .card-question { color: white; }
+    .card-dark { background: #2C3E50; border-bottom: 5px solid #1A252F; color: white; }
+    .card-dark .card-question { color: #ecf0f1; }
+
+    .btn {
+      background: #f7d44a;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: 700;
+      cursor: pointer;
+      margin: 5px;
+      font-size: 0.9rem;
+    }
+
+    .btn-secondary {
+      background: #4a6b5a;
+      color: white;
+    }
+
+    .message-area {
+      background: rgba(0,0,0,0.8);
+      color: #f7d44a;
+      padding: 12px;
+      border-radius: 40px;
+      text-align: center;
+      margin-top: 15px;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    @media (max-width: 900px) {
+      .card { width: 170px; min-height: 160px; padding: 0.8rem; }
+      .card-question { font-size: 0.75rem; }
+      .card-icon { font-size: 1.6rem; }
+    }
+
+    @media (max-width: 700px) {
+      .card { width: 150px; min-height: 150px; padding: 0.7rem; }
+      .card-question { font-size: 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="game-header">
+    <h1>🐦‍⬛ Kauwe Bende <span style="font-size:1rem;">| Icons Edition</span></h1>
+    <div class="timer" id="timer">⏱️ 20:00</div>
+  </div>
+
+  <div class="game-table">
+    <div class="players-grid" id="playersGrid"></div>
+    
+    <div class="discard-area">
+      <div class="discard-pile">
+        <div class="discard-label">🗑️ DISCARD PILE</div>
+        <div class="current-card" id="discardCard">—</div>
+        <div class="match-rules" id="matchRules">Match color OR icon</div>
+      </div>
+    </div>
+
+    <div class="player-hand">
+      <div class="hand-title">
+        <span>🎴 YOUR HAND</span>
+        <button class="btn btn-secondary" onclick="endTurn()">⏭️ End Turn (Draw)</button>
+      </div>
+      <div class="cards-container" id="cardsContainer"></div>
+    </div>
+
+    <div class="message-area" id="messageArea">
+      💡 Match the color OR the icon of the top card!
+    </div>
+  </div>
+</div>
+
+<script>
+  // Icons list
+  const ICONS = ['🥚', '🐦‍⬛', '🪶', '🪵'];
+  const ICON_NAMES = ['Egg', 'Crow', 'Feather', 'Stick'];
+
+  function getRandomIcon() {
+    const idx = Math.floor(Math.random() * ICONS.length);
+    return { symbol: ICONS[idx], name: ICON_NAMES[idx] };
+  }
+
+  // ---------- QUESTION BANK (9 per category) ----------
+  const questions = {
+    positive: [
+      "What made you smile today?",
+      "Who inspires you the most?",
+      "What's a small pleasure you really enjoy?",
+      "What are you grateful for right now?",
+      "What's something good that happened this week?",
+      "Who in your life makes you laugh the most?",
+      "What's something beautiful you saw recently?",
+      "What's a compliment that really stuck with you?",
+      "What's a happy memory you treasure?"
+    ],
+    future: [
+      "What's a dream you're working toward right now?",
+      "Where do you see yourself in 5 years?",
+      "What's a new skill you'd love to learn?",
+      "If money didn't matter, what would you do all day?",
+      "What's a place you desperately want to visit?",
+      "What does a perfect ordinary day look like to you?",
+      "What's a goal you've been putting off for too long?",
+      "What kind of person do you want to become?",
+      "What's something you hope to accomplish next year?"
+    ],
+    reflective: [
+      "What's an important lesson life taught you recently?",
+      "What would you tell your younger self?",
+      "What's something you've completely changed your mind about?",
+      "What's a challenge that made you stronger?",
+      "What's something you're genuinely proud of?",
+      "What's a mistake you learned a lot from?",
+      "How have you changed in the past year?",
+      "What's something you know now that you wish you knew back then?",
+      "What's the best advice anyone has ever given you?"
+    ],
+    competitive: [
+      "What's a skill you're genuinely better at than most people?",
+      "What's a hidden talent nobody here knows about?",
+      "What game do you almost always win at?",
+      "What's something you could confidently teach others?",
+      "What's your personal superpower?",
+      "What sport or activity do you excel at?",
+      "What's something you're faster at than everyone here?",
+      "What's a challenge or competition you've won?",
+      "What's something you're weirdly good at?"
+    ]
+  };
+
+  // Card types
+  const cardTypes = {
+    positive: { name: "POSITIVE", color: "yellow", bgClass: "card-yellow", category: "positive" },
+    future: { name: "FUTURE", color: "blue", bgClass: "card-blue", category: "future" },
+    reflective: { name: "REFLECTIVE", color: "green", bgClass: "card-green", category: "reflective" },
+    competitive: { name: "COMPETITIVE", color: "red", bgClass: "card-red", category: "competitive" },
+    plus2: { name: "+2", color: "dark", bgClass: "card-dark", action: "plus2", effect: "Next player draws 2 cards and skips turn" },
+    skip: { name: "SKIP", color: "dark", bgClass: "card-dark", action: "skip", effect: "Next player loses their turn" },
+    swap: { name: "SWAP", color: "dark", bgClass: "card-dark", action: "swap", effect: "Swap your whole hand with another player" },
+    reverse: { name: "REVERSE", color: "dark", bgClass: "card-dark", action: "reverse", effect: "Reverse the direction of play" }
+  };
+
+  function createCardWithIcon(cardTemplate) {
+    const icon = getRandomIcon();
+    return {
+      ...cardTemplate,
+      iconSymbol: icon.symbol,
+      iconName: icon.name
+    };
+  }
+
+  // Build deck
+  function buildDeck() {
+    let deck = [];
+    // Add question cards (9 each)
+    for (let cat of ['positive', 'future', 'reflective', 'competitive']) {
+      for (let i = 0; i < 9; i++) {
+        deck.push(createCardWithIcon({
+          type: cat,
+          ...cardTypes[cat],
+          question: questions[cat][i % 9]
+        }));
+      }
+    }
+    // Add action cards (3 each)
+    for (let i = 0; i < 3; i++) deck.push(createCardWithIcon({ ...cardTypes.plus2, type: "plus2" }));
+    for (let i = 0; i < 3; i++) deck.push(createCardWithIcon({ ...cardTypes.skip, type: "skip" }));
+    for (let i = 0; i < 3; i++) deck.push(createCardWithIcon({ ...cardTypes.swap, type: "swap" }));
+    for (let i = 0; i < 3; i++) deck.push(createCardWithIcon({ ...cardTypes.reverse, type: "reverse" }));
+    
+    // Shuffle
+    for (let i = deck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+    return deck;
+  }
+
+  let deck = [];
+  let players = [];
+  let currentPlayerIndex = 0;
+  let direction = 1;
+  let skipNext = false;
+  let currentTopCard = null;
+  let gameActive = true;
+  let gameTimer = null;
+  let timeLeft = 20 * 60;
+
+  function canPlay(card) {
+    if (!gameActive) return false;
+    if (currentPlayerIndex !== 0) return false;
+    if (skipNext) return false;
+    if (!currentTopCard) return true;
+    return (card.color === currentTopCard.color) || (card.iconSymbol === currentTopCard.iconSymbol);
+  }
+
+  function playCard(cardIndex) {
+    if (!gameActive) return;
+    if (currentPlayerIndex !== 0) {
+      showMessage("⏳ Wait for your turn!");
+      return;
+    }
+    if (skipNext) {
+      showMessage("⏭️ You are skipped! Turn passes.");
+      skipNext = false;
+      advanceTurn();
+      return;
+    }
+    
+    const card = players[0].hand[cardIndex];
+    if (!canPlay(card)) {
+      showMessage(`❌ Cannot play "${card.name}". Must match: ${currentTopCard?.color.toUpperCase()} color OR ${currentTopCard?.iconSymbol} icon`);
+      return;
+    }
+    
+    // Play the card
+    players[0].hand.splice(cardIndex, 1);
+    
+    // Show question if applicable
+    if (card.type === "positive" || card.type === "future" || card.type === "reflective" || card.type === "competitive") {
+      showMessage(`📢 ${card.name} (${card.iconSymbol}): "${card.question}"`);
+    } else {
+      showMessage(`🎴 Played: ${card.name} ${card.iconSymbol} — ${card.effect || ""}`);
+    }
+    
+    // Execute action
+    if (card.action === "plus2") {
+      let nextIdx = (currentPlayerIndex + direction + players.length) % players.length;
+      for (let i = 0; i < 2; i++) {
+        if (deck.length === 0) deck = buildDeck();
+        players[nextIdx].hand.push(deck.pop());
+      }
+      showMessage(`➕ ${players[nextIdx].name} draws 2 cards!`);
+      skipNext = true;
+    } else if (card.action === "skip") {
+      skipNext = true;
+      showMessage(`⏭️ Next player is skipped!`);
+    } else if (card.action === "swap") {
+      if (players.length >= 2) {
+        let targetIdx = 1;
+        let tempHand = [...players[0].hand];
+        players[0].hand = [...players[targetIdx].hand];
+        players[targetIdx].hand = tempHand;
+        showMessage(`🔄🤝 Swapped hands with ${players[targetIdx].name}!`);
+      }
+    } else if (card.action === "reverse") {
+      direction = direction * -1;
+      showMessage(`🔄 Direction reversed! Now ${direction === 1 ? 'clockwise' : 'counter-clockwise'}`);
+    }
+    
+    // Update top card
+    currentTopCard = {
+      color: card.color,
+      iconSymbol: card.iconSymbol,
+      iconName: card.iconName,
+      name: card.name
+    };
+    
+    // Check win
+    if (players[0].hand.length === 0) {
+      gameActive = false;
+      clearInterval(gameTimer);
+      showMessage("🏆 YOU WON! Amazing connections made! 🏆");
+      renderGame();
+      return;
+    }
+    
+    // Advance turn
+    advanceTurn();
+    renderGame();
+  }
+
+  function advanceTurn() {
+    if (!gameActive) return;
+    let nextIndex = currentPlayerIndex + direction;
+    if (nextIndex < 0) nextIndex = players.length - 1;
+    if (nextIndex >= players.length) nextIndex = 0;
+    
+    if (skipNext) {
+      skipNext = false;
+      nextIndex = (nextIndex + direction + players.length) % players.length;
+    }
+    
+    currentPlayerIndex = nextIndex;
+    
+    if (currentPlayerIndex !== 0 && gameActive) {
+      setTimeout(() => aiTurn(), 800);
+    }
+    
+    renderGame();
+  }
+
+  function aiTurn() {
+    if (!gameActive) return;
+    if (currentPlayerIndex === 0) return;
+    
+    const ai = players[currentPlayerIndex];
+    let playableIndex = ai.hand.findIndex(c => 
+      c.color === currentTopCard?.color || c.iconSymbol === currentTopCard?.iconSymbol
+    );
+    
+    if (playableIndex !== -1) {
+      let card = ai.hand[playableIndex];
+      ai.hand.splice(playableIndex, 1);
+      showMessage(`🤖 ${ai.name} played: ${card.name} ${card.iconSymbol}`);
+      
+      if (card.action === "plus2") {
+        let nextIdx = (currentPlayerIndex + direction + players.length) % players.length;
+        for (let i = 0; i < 2; i++) {
+          if (deck.length === 0) deck = buildDeck();
+          players[nextIdx].hand.push(deck.pop());
+        }
+        skipNext = true;
+      } else if (card.action === "skip") {
+        skipNext = true;
+      } else if (card.action === "swap") {
+        if (players.length >= 2 && currentPlayerIndex !== 0) {
+          let targetIdx = 0;
+          let tempHand = [...ai.hand];
+          ai.hand = [...players[targetIdx].hand];
+          players[targetIdx].hand = tempHand;
+          showMessage(`🔄🤝 ${ai.name} swapped hands with you!`);
+        }
+      } else if (card.action === "reverse") {
+        direction = direction * -1;
+      }
+      
+      currentTopCard = {
+        color: card.color,
+        iconSymbol: card.iconSymbol,
+        iconName: card.iconName,
+        name: card.name
+      };
+    } else {
+      if (deck.length === 0) deck = buildDeck();
+      let drawn = deck.pop();
+      ai.hand.push(drawn);
+      showMessage(`🤖 ${ai.name} drew a card`);
+    }
+    
+    if (ai.hand.length === 0) {
+      gameActive = false;
+      clearInterval(gameTimer);
+      showMessage(`🏆 ${ai.name} won! Great game! 🏆`);
+      renderGame();
+      return;
+    }
+    
+    advanceTurn();
+    renderGame();
+  }
+
+  function endTurn() {
+    if (!gameActive) return;
+    if (currentPlayerIndex !== 0) {
+      showMessage("Not your turn!");
+      return;
+    }
+    if (skipNext) {
+      showMessage("You are skipped! Passing turn.");
+      skipNext = false;
+      advanceTurn();
+      return;
+    }
+    if (deck.length === 0) deck = buildDeck();
+    let drawn = deck.pop();
+    players[0].hand.push(drawn);
+    showMessage(`📤 You drew: ${drawn.name} ${drawn.iconSymbol}`);
+    advanceTurn();
+    renderGame();
+  }
+
+  function showMessage(msg) {
+    const msgDiv = document.getElementById("messageArea");
+    msgDiv.innerHTML = `💬 ${msg}`;
+    setTimeout(() => {
+      if (gameActive && currentTopCard) {
+        msgDiv.innerHTML = `🎯 Match: ${currentTopCard.color.toUpperCase()} color OR ${currentTopCard.iconSymbol} icon`;
+      } else if (gameActive) {
+        msgDiv.innerHTML = `🎴 Play any card to start!`;
+      }
+    }, 4000);
+  }
+
+  function renderGame() {
+    // Render players
+    const grid = document.getElementById("playersGrid");
+    grid.innerHTML = players.map(p => `
+      <div class="player-card ${currentPlayerIndex === p.id && gameActive ? 'active-turn' : ''}">
+        <div class="player-name">${p.name} ${p.id === 0 ? "(You)" : ""}</div>
+        <div class="card-count">🎴 ${p.hand.length} cards</div>
+      </div>
+    `).join("");
+    
+    // Render discard pile
+    if (currentTopCard) {
+      const colorMap = { yellow: '#F7DC6F', blue: '#5DADE2', green: '#A3E4A3', red: '#E74C3C', dark: '#2C3E50' };
+      const textColor = currentTopCard.color === 'dark' || currentTopCard.color === 'red' ? 'white' : '#1a2e2a';
+      document.getElementById("discardCard").innerHTML = `
+        <span style="background:${colorMap[currentTopCard.color]}; color:${textColor}; padding:8px 18px; border-radius:25px; display:inline-flex; align-items:center; gap:10px; font-weight:bold;">
+          ${currentTopCard.iconSymbol} ${currentTopCard.name} (${currentTopCard.color})
+        </span>
+      `;
+      document.getElementById("matchRules").innerHTML = `🎯 Match: ${currentTopCard.color.toUpperCase()} color OR ${currentTopCard.iconSymbol} icon`;
+    } else {
+      document.getElementById("discardCard").innerHTML = `<span>— No card yet —</span>`;
+      document.getElementById("matchRules").innerHTML = `🎯 Play any card to start!`;
+    }
+    
+    // Render hand
+    const container = document.getElementById("cardsContainer");
+    if (!players[0]) return;
+    container.innerHTML = players[0].hand.map((card, idx) => `
+      <div class="card ${card.bgClass}" onclick="playCard(${idx})">
+        <div class="card-icon">${card.iconSymbol}</div>
+        <div class="card-name">${card.name}</div>
+        ${card.question ? `<div class="card-question">"${card.question}"</div>` : ''}
+        ${card.effect ? `<div class="card-effect">⚡ ${card.effect}</div>` : ''}
+      </div>
+    `).join('');
+    
+    if (players[0].hand.length === 0 && gameActive) {
+      container.innerHTML = "<div style='text-align:center; padding:2rem; width:100%;'><div style='font-size:2rem;'>🏆</div><div style='font-size:1.2rem; font-weight:bold; margin-top:10px;'>YOU WON!</div><div>Great connections made!</div></div>";
+    }
+  }
+
+  function startTimer() {
+    gameTimer = setInterval(() => {
+      if (timeLeft <= 0) {
+        clearInterval(gameTimer);
+        document.getElementById("timer").innerHTML = "⏱️ GAME OVER!";
+        showMessage("🎉 Time's up! Great game! 🎉");
+        gameActive = false;
+      } else {
+        timeLeft--;
+        let mins = Math.floor(timeLeft / 60);
+        let secs = timeLeft % 60;
+        document.getElementById("timer").innerHTML = `⏱️ ${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      }
+    }, 1000);
+  }
+
+  function initGame() {
+    deck = buildDeck();
+    players = [
+      { id: 0, name: "You", hand: [], isHuman: true },
+      { id: 1, name: "Player 2", hand: [], isHuman: false },
+      { id: 2, name: "Player 3", hand: [], isHuman: false },
+      { id: 3, name: "Player 4", hand: [], isHuman: false }
+    ];
+    
+    for (let p of players) {
+      for (let i = 0; i < 5; i++) {
+        p.hand.push(deck.pop());
+      }
+    }
+    
+    // First discard (ensure not an action card)
+    let firstCard = deck.pop();
+    while (firstCard.action) {
+      deck.unshift(firstCard);
+      firstCard = deck.pop();
+    }
+    currentTopCard = {
+      color: firstCard.color,
+      iconSymbol: firstCard.iconSymbol,
+      iconName: firstCard.iconName,
+      name: firstCard.name
+    };
+    
+    renderGame();
+    startTimer();
+  }
+
+  initGame();
+</script>
+</body>
+</html>
