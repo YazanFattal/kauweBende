@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#1a472a"/>
+  
+  <!-- Crow body -->
+  <circle cx="32" cy="36" r="12" fill="#000"/>
+  
+  <!-- Head -->
+  <circle cx="40" cy="24" r="7" fill="#000"/>
+  
+  <!-- Beak -->
+  <polygon points="47,24 56,20 47,28" fill="#f7d44a"/>
+  
+  <!-- Eye -->
+  <circle cx="42" cy="23" r="1.5" fill="#fff"/>
+</svg>
