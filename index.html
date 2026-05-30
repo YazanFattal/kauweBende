@@ -22,33 +22,23 @@
 
       <img src="kauwe-logo.png" class="logo" alt="Kauwe Bende Logo">
 
-      <h1>Welcome to Kauwe Bende</h1>
+      <div class="language-switch start-language">
+  <button onclick="changeLanguage('en')">English</button>
+  <button onclick="changeLanguage('nl')">Nederlands</button>
+</div>
 
-      <p>
-        A playful conversation game where players answer hidden questions,
-        switch categories, and discover different types of social challenges.
-      </p>
+      <h1 id="guideTitle">Welcome to Kauwe Bende</h1>
 
-      <div class="rules">
-  <div class="rule-item">
-    <span>01</span>
-    <p>Choose the first category to start the game.</p>
-  </div>
+<p id="guideDescription">
+  A playful conversation game where players answer hidden questions,
+  switch categories, and discover different types of social challenges.
+</p>
 
-  <div class="rule-item">
-    <span>02</span>
-    <p>The question stays hidden until the card is revealed.</p>
-  </div>
-
-  <div class="rule-item">
-    <span>03</span>
-    <p>After each round, the next category will switch randomly.</p>
-  </div>
-
-  <div class="rule-item">
-    <span>04</span>
-    <p>Be honest, respectful, and have fun.</p>
-  </div>
+      <div class="manual-box">
+  <p id="rule1">Choose the first category to start the game.</p>
+  <p id="rule2">The question stays hidden until the card is revealed.</p>
+  <p id="rule3">After each round, the next category will switch randomly.</p>
+  <p id="rule4">Be honest, respectful, and have fun.</p>
 </div>
 
       <button onclick="goToGame()">
@@ -68,9 +58,9 @@
   <img src="kauwe-logo.png" class="game-logo">
 
   <div class="title-box">
-    <h2>Pick a category</h2>
-    <span>Choose your first vibe, reveal the card!</span>
-  </div>
+  <h2>Draw a Random Card</h2>
+  <span>Click the card to reveal the question</span>
+</div>
 
   <button onclick="goToGuide()">
     Leave Game
@@ -78,37 +68,14 @@
 
 </div>
 
-    <div class="categories">
+    <div class="main-card-area">
 
-      <div class="card positive" onclick="selectCategory('Positive')">
-        <div class="icon">⭐</div>
-        <h3>Positive</h3>
-        <p>Uplifting questions to spread good vibes.</p>
-      </div>
+  <div class="draw-card" onclick="drawFirstCard()">
+  <img src="kauwe-logo.png" class="card-logo" alt="Kauwe Bende Logo">
 
-      <div class="card future" onclick="selectCategory('Future')">
-        <div class="icon">🔮</div>
-        <h3>Future</h3>
-        <p>Dreams, goals, and what is ahead.</p>
-      </div>
-
-      <div class="card reflective" onclick="selectCategory('Reflective')">
-        <div class="icon">🔍</div>
-        <h3>Reflective</h3>
-        <p>Deeper questions to reflect on yourself.</p>
-      </div>
-
-      <div class="card competitive" onclick="selectCategory('Competitive')">
-        <div class="icon">🏆</div>
-        <h3>Competitive</h3>
-        <p>Fun challenges and playful debates.</p>
-      </div>
-
-    </div>
-
-    <div class="hint">
-      Tap a category to reveal a random question
-    </div>
+  <h2 id="drawCardTitle">Draw a Card</h2>
+  <p id="drawCardText">Click to reveal your first question</p>
+</div>
 
   </section>
 
