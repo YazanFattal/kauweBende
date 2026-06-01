@@ -169,3 +169,21 @@ function drawFirstCard() {
 }
 
 changeLanguage("en");
+
+function revealCategoryCard(category, cardElement){
+  const categoryQuestions = questions[currentLanguage][category];
+
+  const randomQuestion =
+    categoryQuestions[Math.floor(Math.random() * categoryQuestions.length)];
+
+  const allCards = document.querySelectorAll(".hidden-card");
+
+  allCards.forEach(card => {
+    card.classList.remove("revealed");
+    card.querySelector("p").innerText =
+      currentLanguage === "nl" ? "Klik om te onthullen" : "Click to reveal";
+  });
+
+  cardElement.classList.add("revealed");
+  cardElement.querySelector("p").innerText = randomQuestion;
+}

@@ -5,6 +5,20 @@
   font-family:"Comic Sans MS",sans-serif;
 }
 
+.hidden-card h2{
+  font-family: "Baloo 2", cursive;
+  font-size:52px;
+  font-weight:700;
+}
+
+.hidden-card p{
+  font-family: "Poppins", sans-serif;
+  font-size:28px;
+  font-weight:500;
+  color:white;
+  line-height:1.4;
+}
+
 body{
   min-height:100vh;
   background:radial-gradient(circle at top,#25124a,#070414);
@@ -72,10 +86,16 @@ body{
   margin:8px 0;
 }
 
-.logo{
-  width:160px;
-  margin-bottom:15px;
+.hidden-card-logo{
+  width:120px;
+
+  opacity:0.9;
+
   mix-blend-mode:lighten;
+}
+
+.hidden-card{
+  background:rgba(25,18,55,0.95);
 }
 
 .guide h1{
@@ -174,7 +194,7 @@ button:hover{
   height:350px;
   border-radius:30px;
   padding:30px;
-  color:black;
+  color:white;
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -200,7 +220,7 @@ button:hover{
 }
 
 .card p{
-  color:black;
+  color:white;
   font-size:20px;
 }
 
@@ -303,79 +323,82 @@ button:hover{
 
 /* MAIN DRAW CARD */
 
-.main-card-area{
+.hidden-cards-area{
   height:65vh;
-  display:flex;
-  justify-content:center;
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:24px;
   align-items:center;
 }
 
-.draw-card{
-  position:relative;
-
-  width:420px;
-  height:520px;
-
-  border-radius:35px;
-
-  background:rgba(255,255,255,0.08);
-  border:2px solid rgba(255,255,255,0.15);
-
-  box-shadow:0 25px 50px rgba(0,0,0,0.35);
-
+.hidden-card{
+  height:420px;
+  border-radius:32px;
+  padding:30px;
+  text-align:center;
   cursor:pointer;
-
+  position:relative;
+  border:2px solid rgba(255,255,255,0.15);
+  box-shadow:0 25px 50px rgba(0,0,0,0.35);
   transition:0.3s ease;
 }
 
-.draw-card:hover{
-  transform:translateY(-8px);
-  background:rgba(255,255,255,0.12);
+.hidden-card:hover{
+  transform:translateY(-10px);
 }
 
-.card-logo{
-  position:absolute;
-  top:50px;
-  left:50%;
-  transform:translateX(-50%);
-
-  width:140px;
-
+.hidden-card-logo{
+  width:120px;
   mix-blend-mode:lighten;
+  margin-top:35px;
+  margin-bottom:60px;
 }
 
-#drawCardTitle{
-  position:absolute;
-
-  top:210px;
-  left:0;
-  right:0;
-
-  text-align:center;
-
-  font-size:54px;
-  line-height:1;
+.hidden-card h2{
+  font-size:38px;
+  margin-bottom:20px;
 }
 
-#drawCardText{
-  position:absolute;
+.hidden-card p{
+  font-size:20px;
+  color:white;
+  line-height:1.35;
+}
 
-  top:310px;
-  left:35px;
-  right:35px;
+.hidden-card{
+  background:rgba(255,255,255,0.08);
 
-  height:120px;
+  border:4px solid transparent;
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.35);
 
-  text-align:center;
+  color:white;
+}
 
-  font-size:28px;
-  line-height:1.4;
+.positive-card{
+  border-color:#FFD230;
+}
 
-  color:#c4b5fd;
+.future-card{
+  border-color:#3498ff;
+}
+
+.reflective-card{
+  border-color:#8BE234;
+}
+
+.competitive-card{
+  border-color:#ff4b4b;
+}
+
+.hidden-card.revealed{
+  transform:scale(1.04);
+}
+
+.hidden-card.revealed p{
+  font-size:24px;
+  font-weight:bold;
 }
 
 /* CATEGORY COLORS */
@@ -431,5 +454,21 @@ button:hover{
 }
 
 .category-competitive-text{
+  color:#ff4b4b;
+}
+
+.positive-card h2{
+  color:#FFD230;
+}
+
+.future-card h2{
+  color:#3498ff;
+}
+
+.reflective-card h2{
+  color:#8BE234;
+}
+
+.competitive-card h2{
   color:#ff4b4b;
 }

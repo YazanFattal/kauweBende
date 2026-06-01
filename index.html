@@ -10,6 +10,10 @@
   <link rel="icon" type="image/png" href="kauwe-logo.png">
 
   <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
 </head>
 
@@ -58,8 +62,8 @@
   <img src="kauwe-logo.png" class="game-logo">
 
   <div class="title-box">
-  <h2>Draw a Random Card</h2>
-  <span>Click the card to reveal the question</span>
+  <h2>Choose a Hidden Card</h2>
+  <span>Each card reveals a different category question</span>
 </div>
 
   <button onclick="goToGuide()">
@@ -68,13 +72,32 @@
 
 </div>
 
-    <div class="main-card-area">
+    <div class="hidden-cards-area">
 
-  <div class="draw-card" onclick="drawFirstCard()">
-  <img src="kauwe-logo.png" class="card-logo" alt="Kauwe Bende Logo">
+  <div class="hidden-card positive-card" onclick="revealCategoryCard('Positive', this)">
+    <img src="kauwe-logo.png" class="hidden-card-logo">
+    <h2>Positive</h2>
+    <p>Click to reveal</p>
+  </div>
 
-  <h2 id="drawCardTitle">Draw a Card</h2>
-  <p id="drawCardText">Click to reveal your first question</p>
+  <div class="hidden-card future-card" onclick="revealCategoryCard('Future', this)">
+    <img src="kauwe-logo.png" class="hidden-card-logo">
+    <h2>Future</h2>
+    <p>Click to reveal</p>
+  </div>
+
+  <div class="hidden-card reflective-card" onclick="revealCategoryCard('Reflective', this)">
+    <img src="kauwe-logo.png" class="hidden-card-logo">
+    <h2>Reflective</h2>
+    <p>Click to reveal</p>
+  </div>
+
+  <div class="hidden-card competitive-card" onclick="revealCategoryCard('Competitive', this)">
+    <img src="kauwe-logo.png" class="hidden-card-logo">
+    <h2>Competitive</h2>
+    <p>Click to reveal</p>
+  </div>
+
 </div>
 
   </section>
