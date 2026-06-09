@@ -36,6 +36,13 @@ const translations = {
   }
 };
 
+const sounds = {
+  Positive: new Audio("sounds/positive.mp3"),
+  Future: new Audio("sounds/future.mp3"),
+  Reflective: new Audio("sounds/reflective.mp3"),
+  Competitive: new Audio("sounds/competitive.mp3")
+};
+
 const questions = {
   en: {
     Positive: [
@@ -171,6 +178,9 @@ function drawFirstCard() {
 changeLanguage("en");
 
 function revealCategoryCard(category, cardElement){
+
+  sounds[category].currentTime = 0;
+  sounds[category].play();
   const categoryQuestions = questions[currentLanguage][category];
 
   const randomQuestion =
